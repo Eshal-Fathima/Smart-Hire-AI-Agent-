@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Analysis Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f4f7fb;
+      color: #333;
+    }
+    .navbar {
+      background: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .navbar h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+    .btn-home {
+      background: #4a6cf7;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .card h2, .card h3 {
+      margin: 0 0 10px 0;
+    }
+    .score {
+      font-size: 36px;
+      font-weight: bold;
+      color: #4a6cf7;
+    }
+    .highlight-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .highlight {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .highlight.green { background: #e6f8ee; color: #22863a; }
+    .highlight.red { background: #fde8e8; color: #d73a49; }
+    .courses ul {
+      list-style: none;
+      padding: 0;
+    }
+    .courses li {
+      margin-bottom: 8px;
+    }
+    .courses a {
+      color: #4a6cf7;
+      text-decoration: none;
+    }
+    .courses a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>Resume Analysis Dashboard</h1>
+    <button class="btn-home" onclick="window.location.href='/'">Back to Homepage</button>
+  </div>
+
+  <div class="dashboard">
+
+    <!-- Top Row: Correct, Missing, General Suggestions -->
+    <div class="card">
+      <h2>✅ Correct Skills</h2>
+      <div class="highlight-section">
+        {% for skill in common_skills %}
+          <div class="highlight green">✔ {{ skill }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>❌ Missing Skills</h2>
+      <div class="highlight-section">
+        {% for skill in missing_skills %}
+          <div class="highlight red">❌ {{ skill }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💡 General Suggestions</h2>
+      <div class="highlight-section">
+        {% for feedback in general_feedback %}
+          <div class="highlight" style="background:none; color:#333;">💡 {{ feedback }}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Bottom Row: ATS Score, Skills Pie Chart, Recommended Courses -->
+    <div class="card">
+      <h2>ATS Score</h2>
+      <p class="score">{{ score }}%</p>
+      <p><strong>Role:</strong> {{ role }}</p>
+      <p><strong>Chance of 2nd Round:</strong> {{ second_round_prob }}%</p>
+    </div>
+
+    <div class="card">
+      <h2>Skills Overview</h2>
+      <span id="correct-count" data-value="{{ common_skills|length }}"></span>
+      <span id="missing-count" data-value="{{ missing_skills|length }}"></span>
+      <canvas id="skillsChart"></canvas>
+    </div>
+
+    <div class="card courses">
+      <h2>Recommended Courses</h2>
+      <ul>
+        {% for course in courses %}
+          <li><a href="https://www.udemy.com/courses/search/?q={{ course }}" target="_blank">{{ course }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    const correctSkills = {{ common_skills|length }};
+    const missingSkills = {{ missing_skills|length }};
+  </script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Hire AI Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">SmartHire AI</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="#resume">Resume Analysis</a></li>
+                <li><a href="#interview">Mock Interview</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1 class="animate-text">Welcome to Smart Hire AI Agent</h1>
+            <p class="fade-in">Connecting Talent with Opportunities</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <!-- Resume Analysis -->
+        <!-- Resume Analysis -->
+        <div class="feature-card fade-in-up" id="resume">
+            <h2>📄 Analyze Your Resume</h2>
+            <p>Choose the role you are applying for and upload your resume to get an ATS-style score.</p>
+            <form action="{{ url_for('analyze_resume') }}" method="post" enctype="multipart/form-data">
+                <!-- Select Role -->
+                <label for="role">Select the Role you are applying for:</label>
+                <select name="role" id="role" required>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="AI/ML Engineer">AI/ML Engineer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="HR Manager">HR Manager</option>
+                </select>
+
+                <!-- Upload Resume -->
+                <label class="custom-file-upload">
+                    <input type="file" name="resume" required>
+                    📂 Upload Resume
+                </label>
+
+                <button type="submit">Start Analysis</button>
+            </form>
+        </div>
+
+        <!-- Mock Interview -->
+        <div class="feature-card fade-in-up delay" id="interview">
+            <h2>🎤 Mock Interview</h2>
+            <p>Practice interview questions tailored to your dream company & role.</p>
+            <form action="{{ url_for('mock_interview') }}" method="post">
+                
+                <!-- Company Dropdown (Popular Indian Companies) -->
+                <label for="company">Choose Company:</label>
+                <select name="company" id="company" required>
+                    <option value="Infosys">Infosys</option>
+                    <option value="TCS">TCS</option>
+                    <option value="Wipro">Wipro</option>
+                    <option value="HCL">HCL</option>
+                    <option value="Tech Mahindra">Tech Mahindra</option>
+                </select>
+
+                <!-- Role Dropdown (In-Demand Roles) -->
+                <label for="role">Choose Role:</label>
+                <select name="role" id="role" required>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="AI/ML Engineer">AI/ML Engineer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="HR Manager">HR Manager</option>
+                </select>
+
+                <button type="submit">Start Interview</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 SmartHire AI </p>
+    </footer>
+</body>
+</html>
