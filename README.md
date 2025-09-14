@@ -23,7 +23,8 @@ SmartHireAI is an AI-driven platform to help users with resume analysis, mock in
 - Back to Homepage button redirects to the main `index.html`.
 
 ---
-### **Project Structure**
+## **Project Structure**
+
 SmartHireAI/
 ├── app/
 │ ├── templates/
@@ -49,5 +50,4 @@ SmartHireAI/
    pip install -r requirements.txt
 
    python app.py 
-## Project Structure
 
