@@ -3,162 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment - Professional Assessment System</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Interview Results - {{ role }} @ {{ company }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Body & Background */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url('{{ bg_url }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        /* Overlay */
+        .overlay {
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+        .btn-home {
+            background: #4a6cf7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Results Dashboard */
+        .dashboard {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            max-width: 750px;
+            width: 100%;
+            animation: fadeInUp 0.7s ease;
+        }
+        .card h2 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        /* Question Result */
+        .question-result {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f4f7ff;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .question-result h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+            color: #1c3d72;
+        }
+        .score-bar {
+            height: 12px;
+            border-radius: 8px;
+            background: #e0e0e0;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            transition: width 0.8s ease;
+        }
+        .feedback {
+            font-size: 14px;
+            color: #555;
+        }
+        .keywords {
+            font-size: 14px;
+            margin-top: 6px;
+            color: #2c3e50;
+        }
+
+        /* Final Score */
+        .final-score {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        /* Button */
+        .btn-back {
+            display: block;
+            margin: 30px auto 0;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .btn-back:hover {
+            transform: scale(1.07);
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <h2>AssessmentPro</h2>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="interview.html" class="nav-link active">Start Assessment</a></li>
-                <li><a href="result.html" class="nav-link">Results</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main class="interview-main">
-        <div class="interview-container">
-            <!-- Progress Header -->
-            <div class="progress-header">
-                <div class="progress-info">
-                    <h1>Professional Assessment</h1>
-                    <p>Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span></p>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar">
-                        <div id="progressFill" class="progress-fill" style="width: 10%"></div>
-                    </div>
-                    <span class="progress-text">10% Complete</span>
-                </div>
-            </div>
-
-            <!-- Question Card -->
-            <div class="question-card">
-                <div class="question-header">
-                    <span class="question-category" id="questionCategory">Technical Skills</span>
-                    <span class="question-difficulty" id="questionDifficulty">Intermediate</span>
-                </div>
-                
-                <div class="question-content">
-                    <h2 id="questionText">Which programming paradigm emphasizes the use of objects and classes to structure code?</h2>
-                    
-                    <div class="options-container" id="optionsContainer">
-                        <label class="option">
-                            <input type="radio" name="answer" value="a">
-                            <span class="option-text">Functional Programming</span>
-                            <span class="option-marker"></span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="answer" value="b">
-                            <span class="option-text">Object-Oriented Programming</span>
-                            <span class="option-marker"></span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="answer" value="c">
-                            <span class="option-text">Procedural Programming</span>
-                            <span class="option-marker"></span>
-                        </label>
-                        <label class="option">
-                            <input type="radio" name="answer" value="d">
-                            <span class="option-text">Logic Programming</span>
-                            <span class="option-marker"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="question-actions">
-                    <button id="prevBtn" class="btn btn-secondary" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H6m0 0l7-7m-7 7l7 7"/>
-                        </svg>
-                        Previous
-                    </button>
-                    <div class="action-group">
-                        <button id="skipBtn" class="btn btn-outline">Skip</button>
-                        <button id="nextBtn" class="btn btn-primary">
-                            Next
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M5 12h13m0 0l-7-7m7 7l-7 7"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timer -->
-            <div class="timer-card">
-                <div class="timer-content">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12,6 12,12 16,14"/>
-                    </svg>
-                    <div class="timer-text">
-                        <span class="timer-label">Time Remaining</span>
-                        <span id="timer" class="timer-value">29:45</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Question Navigation -->
-            <div class="question-nav">
-                <h3>Question Overview</h3>
-                <div class="question-grid" id="questionGrid">
-                    <!-- Questions will be populated by JavaScript -->
-                </div>
-                <div class="nav-legend">
-                    <div class="legend-item">
-                        <span class="legend-marker answered"></span>
-                        <span>Answered</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker current"></span>
-                        <span>Current</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-marker unanswered"></span>
-                        <span>Unanswered</span>
-                    </div>
-                </div>
-            </div>
+    <div class="overlay">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h1>Results: {{ role }} @ {{ company }}</h1>
+            <a href="{{ url_for('home') }}" class="btn-home">Back to Homepage</a>
         </div>
 
-        <!-- Assessment Complete Modal -->
-        <div id="completeModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Assessment Complete!</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="completion-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="card">
+                <h2>Your Interview Analysis</h2>
+
+                {% for q in results %}
+                <div class="question-result">
+                    <h3>Q{{ loop.index }}. {{ q.question }}</h3>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: {{ q.score }}%"></div>
                     </div>
-                    <p>Congratulations! You have successfully completed the assessment.</p>
-                    <div class="completion-stats">
-                        <div class="stat">
-                            <strong id="answeredCount">8</strong>
-                            <span>Questions Answered</span>
-                        </div>
-                        <div class="stat">
-                            <strong id="timeSpent">25:30</strong>
-                            <span>Time Spent</span>
-                        </div>
+                    <div class="feedback">✅ Score: {{ q.score }}%</div>
+                    <div class="keywords">
+                        <strong>Suggestions:</strong> {{ q.recommendations }}
                     </div>
                 </div>
-                <div class="modal-actions">
-                    <button id="reviewBtn" class="btn btn-secondary">Review Answers</button>
-                    <a href="result.html" class="btn btn-primary">View Results</a>
+                {% endfor %}
+
+                <div class="final-score">
+                    🎯 Final Score: {{ final_score }}%
                 </div>
+
+                <a href="{{ url_for('home') }}" class="btn-back">Back to Home</a>
             </div>
         </div>
-    </main>
-
-    <script src="interview.js"></script>
+    </div>
 </body>
 </html>
