@@ -2,18 +2,163 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mock Interview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview - {{ role }} @ {{ company }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Body & Background */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: url('{{ bg_url }}') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        /* Overlay for blur and readability */
+        .overlay {
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.85);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+        .btn-home {
+            background: #4a6cf7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Dashboard & Card */
+        .dashboard {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Question & Answer Boxes */
+        .question-box {
+            margin-bottom: 20px;
+            background: #e6f0ff;
+            color: #1c3d72;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .answer-box {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* Button */
+        .btn-submit {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Mock Interview for {{ company }}</h1>
-        <ul>
-            {% for q in questions %}
-                <li>{{ q }}</li>
-            {% endfor %}
-        </ul>
-        <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+    <div class="overlay">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h1>Mock Interview: {{ role }} @ {{ company }}</h1>
+            <a href="{{ url_for('home') }}" class="btn-home">Back to Homepage</a>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="card">
+                <h2>Answer the following question:</h2>
+                <div id="question-container" class="question-box"></div>
+
+                <input type="text" id="answer" class="answer-box" placeholder="Type your answer here..." />
+
+                <button id="next-btn" class="btn-submit">Submit & Next</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const questions = {{ questions | tojson }};
+        let currentIndex = 0;
+        const userAnswers = [];
+
+        const questionContainer = document.getElementById('question-container');
+        const answerInput = document.getElementById('answer');
+        const nextBtn = document.getElementById('next-btn');
+
+        function showQuestion(index) {
+            if (index < questions.length) {
+                questionContainer.textContent = "Q" + (index + 1) + ". " + questions[index];
+                answerInput.value = "";
+                answerInput.focus();
+            } else {
+                questionContainer.textContent = "🎉 You have completed the mock interview!";
+                answerInput.style.display = "none";
+                nextBtn.style.display = "none";
+
+                console.log("User Answers:", userAnswers);
+                // Optional: send answers to Flask server here
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            const userAnswer = answerInput.value.trim();
+            if (!userAnswer) {
+                alert("⚠️ Answer cannot be empty!");
+                return;
+            }
+            userAnswers.push(userAnswer);
+            currentIndex++;
+            showQuestion(currentIndex);
+        });
+
+        // Show first question initially
+        showQuestion(currentIndex);
+    </script>
 </body>
 </html>
