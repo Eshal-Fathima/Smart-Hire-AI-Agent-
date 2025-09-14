@@ -1,186 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Results - {{ role }} @ {{ company }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        /* Body & Background */
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: url('{{ bg_url }}') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-        }
-
-        /* Overlay */
-        .overlay {
-            backdrop-filter: blur(6px);
-            background: rgba(255, 255, 255, 0.9);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Navbar */
-        .navbar {
-            background: #fff;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .navbar h1 {
-            font-size: 20px;
-            margin: 0;
-        }
-        .btn-home {
-            background: #4a6cf7;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        /* Results Dashboard */
-        .dashboard {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            max-width: 750px;
-            width: 100%;
-            animation: fadeInUp 0.7s ease;
-        }
-        .card h2 {
-            text-align: center;
-            margin-top: 0;
-            font-size: 22px;
-            margin-bottom: 25px;
-            color: #2c3e50;
-        }
-
-        /* Question Result */
-        .question-result {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f4f7ff;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .question-result h3 {
-            font-size: 17px;
-            margin-bottom: 10px;
-            color: #1c3d72;
-        }
-        .score-bar {
-            height: 12px;
-            border-radius: 8px;
-            background: #e0e0e0;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .score-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2ecc71, #27ae60);
-            transition: width 0.8s ease;
-        }
-        .feedback {
-            font-size: 14px;
-            color: #555;
-        }
-        .keywords {
-            font-size: 14px;
-            margin-top: 6px;
-            color: #2c3e50;
-        }
-
-        /* Final Score */
-        .final-score {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #27ae60;
-        }
-
-        /* Button */
-        .btn-back {
-            display: block;
-            margin: 30px auto 0;
-            background: linear-gradient(45deg, #3498db, #9b59b6);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.3s ease;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .btn-back:hover {
-            transform: scale(1.07);
-        }
-
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Results - {{ role }} @ {{ company }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+body {margin:0;font-family:'Roboto',sans-serif;background:url('{{ bg_url }}') no-repeat center center fixed;background-size:cover;color:#333;}
+.overlay{backdrop-filter:blur(8px);background:rgba(255,255,255,0.85);min-height:100vh;display:flex;flex-direction:column;padding-bottom:40px;animation:fadeInBg 1.5s ease;}
+@keyframes fadeInBg{from{opacity:0;}to{opacity:1;}}
+.navbar{background:linear-gradient(90deg,#4a6cf7,#2ecc71);padding:15px 30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.2);color:#fff;}
+.navbar h1{font-size:20px;margin:0;}
+.btn-home{background:white;color:#4a6cf7;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:500;transition:all 0.3s ease;}
+.btn-home:hover{background:#f2f2f2;}
+.dashboard{display:flex;justify-content:center;flex:1;align-items:flex-start;padding:40px 20px;}
+.card{background:white;border-radius:15px;padding:40px 30px;box-shadow:0 8px 20px rgba(0,0,0,0.15);max-width:750px;width:100%;text-align:center;animation:fadeInCard 1s ease;}
+@keyframes fadeInCard{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.card:hover{box-shadow:0 12px 28px rgba(0,0,0,0.2);transition:0.3s;}
+.card h2{margin-top:0;font-size:22px;margin-bottom:20px;font-weight:500;}
+.question-result{margin-bottom:25px;padding:20px;background:#f4f7ff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.05);text-align:left;}
+.question-result h3{font-size:17px;margin-bottom:10px;color:#1c3d72;}
+.score-bar{height:12px;border-radius:8px;background:#e0e0e0;overflow:hidden;margin-bottom:12px;}
+.score-fill{height:100%;width:0;background:linear-gradient(90deg,#2ecc71,#27ae60);transition:width 1s ease;}
+.feedback{font-size:14px;color:#555;}
+.keywords{font-size:14px;margin-top:6px;color:#2c3e50;}
+.final-score{text-align:center;margin-top:30px;font-size:20px;font-weight:bold;color:#27ae60;}
+</style>
 </head>
 <body>
-    <div class="overlay">
-        <!-- Navbar -->
-        <div class="navbar">
-            <h1>Results: {{ role }} @ {{ company }}</h1>
-            <a href="{{ url_for('home') }}" class="btn-home">Back to Homepage</a>
+<div class="overlay">
+  <div class="navbar">
+    <h1>Interview Results</h1>
+    <a href="{{ url_for('static', filename='index.html') }}" class="btn-home">Back to Homepage</a>
+
+  </div>
+
+  <div class="dashboard">
+    <div class="card">
+      <h2>Your Interview Analysis</h2>
+      <p><strong>Company:</strong> {{ company }}</p>
+      <p><strong>Role:</strong> {{ role }}</p>
+      <p><strong>Overall Score:</strong> {{ overall_score }}%</p>
+
+      <div id="resultsContainer">
+        {% for q in results %}
+        <div class="question-result">
+          <h3>{{ q.question }}</h3>
+          <div class="score-bar"><div class="score-fill" style="width:{{ q.score }}%"></div></div>
+          <div class="feedback">✅ Score: {{ q.score }}%</div>
+          <div class="keywords"><strong>Recommendations:</strong> Add these keywords for stronger effect: {{ q.missing_keywords | join(", ") }}</div>
         </div>
+        {% endfor %}
+      </div>
 
-        <!-- Dashboard -->
-        <div class="dashboard">
-            <div class="card">
-                <h2>Your Interview Analysis</h2>
-
-                {% for q in results %}
-                <div class="question-result">
-                    <h3>Q{{ loop.index }}. {{ q.question }}</h3>
-                    <div class="score-bar">
-                        <div class="score-fill" style="width: {{ q.score }}%"></div>
-                    </div>
-                    <div class="feedback">✅ Score: {{ q.score }}%</div>
-                    <div class="keywords">
-                        <strong>Suggestions:</strong> {{ q.recommendations }}
-                    </div>
-                </div>
-                {% endfor %}
-
-                <div class="final-score">
-                    🎯 Final Score: {{ final_score }}%
-                </div>
-
-                <a href="{{ url_for('home') }}" class="btn-back">Back to Home</a>
-            </div>
-        </div>
+      <div class="final-score">🎯 Final Score: {{ overall_score }}%</div>
     </div>
+  </div>
+</div>
+
+<script>
+// Animate score bars
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".score-fill").forEach((el) => {
+    const width = el.style.width;
+    el.style.width = "0";
+    setTimeout(() => { el.style.width = width; }, 100);
+  });
+});
+</script>
 </body>
 </html>

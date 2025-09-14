@@ -364,22 +364,74 @@ def mock_interview():
     }
     bg_image = url_for('static', filename=f'images/{company_images.get(company,"default.jpg")}')
 
-    questions = [q["q"] for q in interview_data.get(company, {}).get(role, [])]
+    # Pass the full question objects, including keywords
+    questions = interview_data.get(company, {}).get(role, [])
 
-    return render_template("interview.html", company=company, role=role, questions=questions, bg_url=bg_image)
+    return render_template(
+        "interview.html",  # <-- your merged page filename
+        company=company,
+        role=role,
+        questions=questions,
+        bg_url=bg_image
+    )
+
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+def evaluate_answers(company, role, answers):
+    """
+    Example evaluator function.
+    Returns results list and overall score.
+    Each result is a dict: {"question": str, "score": int, "missing_keywords": list}
+    """
+    results = []
+    total_score = 0
+    keywords_by_question = [
+        ["python", "loops"], ["data structures", "array"], ["oop", "class"], ["api", "request"], ["algorithm", "optimization"]
+    ]
+    
+    for idx, answer in enumerate(answers):
+        # Simple scoring: score % based on number of keywords present
+        q_keywords = keywords_by_question[idx % len(keywords_by_question)]
+        matched = [k for k in q_keywords if k.lower() in answer.lower()]
+        score = int((len(matched)/len(q_keywords))*100)
+        missing = [k for k in q_keywords if k not in matched]
+        results.append({
+            "question": f"Q{idx+1}",
+            "score": score,
+            "missing_keywords": missing
+        })
+        total_score += score
+
+    overall_score = int(total_score / len(answers))
+    return results, overall_score
 
 @app.route("/submit_interview", methods=["POST"])
 def submit_interview():
     company = request.form.get("company")
     role = request.form.get("role")
-    user_answers = request.form.getlist("answers[]")
-    results, overall = evaluate_answers(company, role, user_answers)
-    return render_template("result.html",
-                           results=results,
-                           overall=overall,
-                           company=company,
-                           role=role)
+    user_answers = request.form.getlist("answers")
+
+    results, overall_score = evaluate_answers(company, role, user_answers)
+
+    return render_template("result.html", 
+                           company=company, 
+                           role=role, 
+                           results=results, 
+                           overall_score=overall_score,
+                           bg_url="/static/images/interview-bg.jpg")
+
+    # Render the result analysis page
+    return render_template(
+        "result.html",
+        company=company,
+        role=role,
+        results=results,
+        overall_score=overall_score
+    )
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT",5000))
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
