@@ -375,11 +375,6 @@ def mock_interview():
         bg_url=bg_image
     )
 
-
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
 def evaluate_answers(company, role, answers):
     """
     Example evaluator function.
