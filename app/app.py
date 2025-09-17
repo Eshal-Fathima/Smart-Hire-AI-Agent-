@@ -27,8 +27,8 @@ from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # ✅ IBM Watson credentials (from your JSON)
-ibm_api_key = "xNl72WpEUZKzwVfGXqBgHmmE1Kd6UE1HTKIN43m96OcH"
-ibm_url = "https://api.au-syd.speech-to-text.watson.cloud.ibm.com/instances/41109ef9-d288-4b00-839c-62c2674dd59b"
+ibm_api_key = speech to text ibm api key 
+ibm_url = speech to text url
 
 # ✅ Setup STT service
 speech_to_text = None
@@ -70,10 +70,10 @@ def transcribe_audio():
         return jsonify({"error": str(e)}), 500
 
 # ------------------ Granite LLM via API ------------------
-GRANITE_API_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-05-29"
-GRANITE_API_KEY = "T0uWLVdrR6uANl6MMaP0yamcRUTc_-EoxF5W6CjSJdXL"
-GRANITE_PROJECT_ID = "e1daced7-aac0-44e6-a227-f672004a57e1"
-GRANITE_MODEL_ID = "ibm/granite-3-3-8b-instruct"
+GRANITE_API_URL = api from iam
+GRANITE_API_KEY = api key 
+GRANITE_PROJECT_ID = project id
+GRANITE_MODEL_ID = granite model you choose
 
 def call_granite_llm(prompt_text, max_tokens=2000):
     headers = {
