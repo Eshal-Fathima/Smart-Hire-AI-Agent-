@@ -138,7 +138,7 @@ ROLE_COURSES = {
 GENERAL_SECTIONS = ["Professional Summary","Experience","Education","Contact Info","Skills"]
 RELEVANT_SKILL_SECTIONS = ["experience","work experience","projects","skills","technical skills","technical","education","professional summary"]
 
-# ------------------ Mock Interview Questions ------------------
+# ------------------ Mock Interview Question Bank ------------------
 interview_data = {
     "Infosys": {
         "Software Engineer": [
@@ -147,9 +147,190 @@ interview_data = {
             {"q": "How do you optimize code?", "keywords": ["time complexity","space complexity","refactor","efficiency"]},
             {"q": "Explain Agile methodology.", "keywords": ["sprint","scrum","iteration","collaboration"]},
             {"q": "How do you debug errors?", "keywords": ["logging","breakpoints","unit testing","traceback"]}
+        ],
+        "Data Scientist": [
+            {"q": "Explain supervised vs unsupervised learning.", "keywords": ["labels","classification","clustering","regression"]},
+            {"q": "What is overfitting?", "keywords": ["high variance","low bias","regularization","cross-validation"]},
+            {"q": "Explain feature engineering.", "keywords": ["normalization","scaling","encoding","feature extraction"]},
+            {"q": "What is PCA?", "keywords": ["dimensionality reduction","variance","components","eigenvectors"]},
+            {"q": "How do you handle missing data?", "keywords": ["imputation","drop","mean","median"]}
+        ],
+        "AI/ML Engineer": [
+            {"q": "What is the difference between CNN and RNN?", "keywords": ["image","sequential","convolution","recurrent"]},
+            {"q": "Explain gradient descent.", "keywords": ["optimization","loss function","learning rate","iterations"]},
+            {"q": "What is overfitting in deep learning?", "keywords": ["dropout","regularization","validation","generalization"]},
+            {"q": "Explain transfer learning.", "keywords": ["pretrained","fine-tuning","layers","reuse"]},
+            {"q": "What is reinforcement learning?", "keywords": ["agent","environment","reward","policy"]}
+        ],
+        "Full Stack Developer": [
+            {"q": "What is REST API?", "keywords": ["stateless","client-server","json","endpoint"]},
+            {"q": "Explain difference between SQL and NoSQL.", "keywords": ["relational","document","scalability","schema"]},
+            {"q": "How do you ensure web security?", "keywords": ["encryption","authentication","csrf","xss"]},
+            {"q": "Explain MVC pattern.", "keywords": ["model","view","controller","separation"]},
+            {"q": "How do you handle responsive design?", "keywords": ["media query","flexbox","grid","mobile-first"]}
+        ],
+        "HR Manager": [
+            {"q": "How do you resolve conflicts?", "keywords": ["mediation","communication","neutral","resolution"]},
+            {"q": "How do you improve employee engagement?", "keywords": ["recognition","feedback","motivation","wellbeing"]},
+            {"q": "What is performance appraisal?", "keywords": ["evaluation","review","feedback","goals"]},
+            {"q": "How do you handle recruitment challenges?", "keywords": ["talent acquisition","screening","sourcing","retention"]},
+            {"q": "What is HR analytics?", "keywords": ["data-driven","metrics","turnover","performance"]}
+        ]
+    },
+    # ------------------ Add TCS ------------------
+    "TCS": {
+        "Software Engineer": [
+            {"q": "Why do you want to join TCS?", "keywords": ["global leader","IT services","innovation","growth"]},
+            {"q": "Explain difference between array and linked list.", "keywords": ["contiguous","dynamic","pointer","index"]},
+            {"q": "What is version control?", "keywords": ["git","repository","commit","branch"]},
+            {"q": "Explain SDLC models.", "keywords": ["waterfall","agile","spiral","iterative"]},
+            {"q": "What is multithreading?", "keywords": ["parallel","concurrency","thread","synchronization"]}
+        ],
+        "Data Scientist": [
+            {"q": "What is hypothesis testing?", "keywords": ["null","alternative","p-value","significance"]},
+            {"q": "Explain linear regression assumptions.", "keywords": ["linearity","independence","normality","homoscedasticity"]},
+            {"q": "What is confusion matrix?", "keywords": ["accuracy","precision","recall","f1-score"]},
+            {"q": "What is clustering?", "keywords": ["unsupervised","groups","similarity","k-means"]},
+            {"q": "How do you select features?", "keywords": ["correlation","importance","forward selection","backward elimination"]}
+        ],
+        "AI/ML Engineer": [
+            {"q": "What is NLP?", "keywords": ["text","language","tokenization","semantic"]},
+            {"q": "Explain backpropagation.", "keywords": ["gradient","error","weights","layers"]},
+            {"q": "What is regularization?", "keywords": ["l1","l2","penalty","overfitting"]},
+            {"q": "Explain GANs.", "keywords": ["generator","discriminator","adversarial","fake"]},
+            {"q": "What is dropout?", "keywords": ["neurons","random","prevent overfitting","training"]}
+        ],
+        "Full Stack Developer": [
+            {"q": "What is React?", "keywords": ["javascript","component","virtual dom","state"]},
+            {"q": "Explain asynchronous programming.", "keywords": ["async","await","callback","promise"]},
+            {"q": "How do you handle database migrations?", "keywords": ["schema","migration","update","rollback"]},
+            {"q": "What is Docker?", "keywords": ["container","virtualization","isolation","deployment"]},
+            {"q": "Explain CI/CD pipeline.", "keywords": ["integration","deployment","automation","testing"]}
+        ],
+        "HR Manager": [
+            {"q": "What is employee retention?", "keywords": ["engagement","satisfaction","growth","reduce turnover"]},
+            {"q": "How do you onboard new employees?", "keywords": ["orientation","training","welcome","integration"]},
+            {"q": "What is competency mapping?", "keywords": ["skills","roles","assessment","gap analysis"]},
+            {"q": "How do you handle layoffs?", "keywords": ["transparency","communication","support","fairness"]},
+            {"q": "What is diversity and inclusion?", "keywords": ["equality","equity","inclusive","culture"]}
+        ]
+    },
+    # ------------------ Add Wipro ------------------
+    "Wipro": {
+        "Software Engineer": [
+            {"q": "Why do you want to join Wipro?", "keywords": ["IT services","innovation","growth","digital"]},
+            {"q": "What is exception handling?", "keywords": ["try","catch","error","throw"]},
+            {"q": "Explain database normalization.", "keywords": ["1nf","2nf","3nf","redundancy"]},
+            {"q": "What is API testing?", "keywords": ["postman","requests","endpoint","response"]},
+            {"q": "Explain cloud computing models.", "keywords": ["iaas","paas","saas","deployment"]}
+        ],
+        "Data Scientist": [
+            {"q": "What is bias-variance tradeoff?", "keywords": ["bias","variance","overfitting","underfitting"]},
+            {"q": "Explain random forest.", "keywords": ["ensemble","decision tree","bagging","prediction"]},
+            {"q": "What is gradient boosting?", "keywords": ["sequential","weak learners","boosting","xgboost"]},
+            {"q": "Explain time series forecasting.", "keywords": ["arima","trend","seasonality","stationarity"]},
+            {"q": "How do you evaluate regression model?", "keywords": ["rmse","mae","r-squared","error"]}
+        ],
+        "AI/ML Engineer": [
+            {"q": "What is computer vision?", "keywords": ["image","object detection","classification","opencv"]},
+            {"q": "Explain word embeddings.", "keywords": ["vector","semantic","similarity","nlp"]},
+            {"q": "What is attention mechanism?", "keywords": ["weights","transformer","focus","context"]},
+            {"q": "Explain LSTM.", "keywords": ["sequential","memory","cell state","gates"]},
+            {"q": "What is autoencoder?", "keywords": ["encoder","decoder","latent","representation"]}
+        ],
+        "Full Stack Developer": [
+            {"q": "What is Node.js?", "keywords": ["javascript","runtime","server-side","event-driven"]},
+            {"q": "Explain authentication vs authorization.", "keywords": ["identity","access","permission","token"]},
+            {"q": "What is GraphQL?", "keywords": ["query","api","schema","flexible"]},
+            {"q": "How do you optimize website performance?", "keywords": ["cache","minify","lazy loading","cdn"]},
+            {"q": "Explain microservices architecture.", "keywords": ["services","independent","api","scalable"]}
+        ],
+        "HR Manager": [
+            {"q": "What is talent management?", "keywords": ["acquisition","development","retention","growth"]},
+            {"q": "How do you manage payroll?", "keywords": ["salary","compliance","accuracy","system"]},
+            {"q": "Explain grievance handling.", "keywords": ["complaint","resolution","communication","trust"]},
+            {"q": "What is succession planning?", "keywords": ["future","leadership","replacement","strategy"]},
+            {"q": "How do you measure training effectiveness?", "keywords": ["feedback","performance","evaluation","improvement"]}
+        ]
+    },
+    # ------------------ Add HCL ------------------
+    "HCL": {
+        "Software Engineer": [
+            {"q": "Why do you want to join HCL?", "keywords": ["IT services","innovation","career growth","client-focused"]},
+            {"q": "Explain difference between stack and queue.", "keywords": ["fifo","lifo","order","structure"]},
+            {"q": "What is exception handling in Java?", "keywords": ["try","catch","finally","throw"]},
+            {"q": "Explain SDLC phases.", "keywords": ["planning","design","implementation","testing"]},
+            {"q": "What is polymorphism?", "keywords": ["overloading","overriding","oop","inheritance"]}
+        ],
+        "Data Scientist": [
+            {"q": "What is logistic regression?", "keywords": ["binary","classification","sigmoid","probability"]},
+            {"q": "Explain decision trees.", "keywords": ["split","gini","entropy","classification"]},
+            {"q": "What is k-means?", "keywords": ["clustering","centroid","unsupervised","distance"]},
+            {"q": "Explain cross-validation.", "keywords": ["k-fold","train","test","validation"]},
+            {"q": "What is feature scaling?", "keywords": ["normalization","standardization","min-max","z-score"]}
+        ],
+        "AI/ML Engineer": [
+            {"q": "Explain CNN architecture.", "keywords": ["convolution","pooling","filters","layers"]},
+            {"q": "What is reinforcement learning?", "keywords": ["reward","policy","agent","environment"]},
+            {"q": "Explain transformers.", "keywords": ["attention","sequence","nlp","parallel"]},
+            {"q": "What is unsupervised learning?", "keywords": ["clustering","grouping","patterns","data"]},
+            {"q": "Explain model deployment.", "keywords": ["api","docker","flask","scalability"]}
+        ],
+        "Full Stack Developer": [
+            {"q": "What is middleware?", "keywords": ["request","response","processing","server"]},
+            {"q": "Explain REST vs SOAP.", "keywords": ["http","xml","json","protocol"]},
+            {"q": "How do you handle sessions?", "keywords": ["cookies","token","storage","authentication"]},
+            {"q": "What is ORM?", "keywords": ["object","relational","mapping","database"]},
+            {"q": "Explain version control workflow.", "keywords": ["branch","merge","pull request","commit"]}
+        ],
+        "HR Manager": [
+            {"q": "How do you improve workplace culture?", "keywords": ["values","engagement","diversity","trust"]},
+            {"q": "What is compensation management?", "keywords": ["salary","benefits","equity","packages"]},
+            {"q": "Explain training needs analysis.", "keywords": ["skills","gap","assessment","development"]},
+            {"q": "What is employee lifecycle?", "keywords": ["recruitment","onboarding","development","exit"]},
+            {"q": "How do you ensure compliance in HR?", "keywords": ["laws","regulations","policies","audit"]}
+        ]
+    },
+    # ------------------ Add Tech Mahindra ------------------
+    "Tech Mahindra": {
+        "Software Engineer": [
+            {"q": "Why do you want to join Tech Mahindra?", "keywords": ["telecom","innovation","digital","growth"]},
+            {"q": "Explain linked list types.", "keywords": ["singly","doubly","circular","node"]},
+            {"q": "What is inheritance in OOP?", "keywords": ["base","derived","reuse","hierarchy"]},
+            {"q": "Explain cloud deployment models.", "keywords": ["public","private","hybrid","community"]},
+            {"q": "What is exception propagation?", "keywords": ["method","stack","error","handling"]}
+        ],
+        "Data Scientist": [
+            {"q": "What is neural network?", "keywords": ["neurons","layers","activation","weights"]},
+            {"q": "Explain ensemble learning.", "keywords": ["bagging","boosting","voting","stacking"]},
+            {"q": "What is dimensionality reduction?", "keywords": ["pca","variance","features","compression"]},
+            {"q": "Explain sampling techniques.", "keywords": ["random","stratified","systematic","bias"]},
+            {"q": "How do you deal with imbalanced data?", "keywords": ["oversampling","undersampling","smote","balanced"]}
+        ],
+        "AI/ML Engineer": [
+            {"q": "What is supervised learning?", "keywords": ["input","output","labels","training"]},
+            {"q": "Explain unsupervised learning.", "keywords": ["clustering","patterns","unlabeled","exploration"]},
+            {"q": "What is reinforcement learning?", "keywords": ["reward","policy","agent","environment"]},
+            {"q": "Explain overfitting and underfitting.", "keywords": ["variance","bias","generalization","model"]},
+            {"q": "What is hyperparameter tuning?", "keywords": ["grid search","random search","parameters","optimization"]}
+        ],
+        "Full Stack Developer": [
+            {"q": "What is REST API?", "keywords": ["endpoint","http","client-server","stateless"]},
+            {"q": "Explain session vs token.", "keywords": ["authentication","authorization","storage","security"]},
+            {"q": "What is webpack?", "keywords": ["bundler","modules","javascript","assets"]},
+            {"q": "Explain responsive design.", "keywords": ["media queries","flexbox","grid","adaptive"]},
+            {"q": "How do you secure web apps?", "keywords": ["csrf","xss","encryption","firewall"]}
+        ],
+        "HR Manager": [
+            {"q": "What is employee engagement?", "keywords": ["motivation","participation","satisfaction","involvement"]},
+            {"q": "Explain recruitment process.", "keywords": ["job posting","screening","interview","selection"]},
+            {"q": "What is performance management?", "keywords": ["goals","review","feedback","evaluation"]},
+            {"q": "How do you handle attrition?", "keywords": ["retention","strategy","culture","growth"]},
+            {"q": "What is HR technology?", "keywords": ["automation","tools","hrms","analytics"]}
         ]
     }
 }
+
 
 # ------------------ Resume Parsing ------------------
 def extract_text_from_pdf(filepath):
@@ -336,6 +517,7 @@ def transcribe_route():
     if error:
         return jsonify({"error": error}), 500
     return jsonify({"text": transcript})
+
 
 # ------------------ Run ------------------
 if __name__ == "__main__":
