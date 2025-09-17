@@ -21,6 +21,7 @@ body {margin:0;font-family:'Roboto',sans-serif;background:url('{{ bg_url }}') no
 @keyframes fadeInCard{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .card:hover{box-shadow:0 12px 28px rgba(0,0,0,0.2);transition:0.3s;}
 .card h2{margin-top:0;font-size:22px;margin-bottom:20px;font-weight:500;}
+.rules-box{background:#fff3cd;color:#856404;padding:12px 15px;margin-bottom:20px;border-left:5px solid #ffeeba;border-radius:8px;font-size:14px;line-height:1.4;text-align:left;}
 .question-box{margin-bottom:20px;background:#e6f0ff;color:#1c3d72;padding:18px 22px;border-radius:10px;font-size:17px;line-height:1.4;min-height:60px;display:flex;align-items:center;justify-content:center;animation:fadeInQuestion 0.8s ease;}
 @keyframes fadeInQuestion{from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
 .answer-box{width:100%;padding:12px 14px;font-size:16px;border-radius:8px;border:1px solid #ccc;margin-bottom:18px;outline:none;transition:all 0.3s ease;}
@@ -42,10 +43,28 @@ body {margin:0;font-family:'Roboto',sans-serif;background:url('{{ bg_url }}') no
 
 <div class="dashboard">
   <div class="card">
+    <!-- 🔔 Rules / Tips Box -->
+    <div class="rules-box">
+      <strong>🎯 Tips for Speaking:</strong>
+      <ul style="margin:5px 0 0 15px; padding:0;">
+        <li>Speak loud and clear in one go; multiple starts may reset the recording.</li>
+        <li>Some words may not be captured correctly—you can edit them manually afterward.</li>
+        <li>Use US English accent for better recognition.</li>
+        <li>Try to speak complete answers without long pauses.</li>
+      </ul>
+    </div>
+
     <h2 id="question-title">Answer the following question:</h2>
     <div id="question-container" class="question-box"></div>
 
     <input type="text" id="answer" class="answer-box" placeholder="Type your answer here..." />
+
+    <!-- 🎤 Mic button -->
+    <div style="margin: 10px 0;">
+      <button id="mic-btn" type="button" class="btn-submit" style="background:#e74c3c;">
+        🎤 Speak Answer
+      </button>
+    </div>
 
     <button id="next-btn" class="btn-submit">Submit & Next</button>
 
@@ -69,6 +88,7 @@ const answerInput = document.getElementById('answer');
 const nextBtn = document.getElementById('next-btn');
 const progressBar = document.getElementById('progress-bar');
 const resultForm = document.getElementById('result-form');
+const micBtn = document.getElementById("mic-btn");
 
 function updateProgress() {
   const progress = (currentIndex / questionTexts.length) * 100;
@@ -81,6 +101,7 @@ function showQuestion(index) {
     answerInput.value = "";
     answerInput.style.display = "block";
     nextBtn.style.display = "inline-block";
+    micBtn.style.display = "inline-block";
     answerInput.focus();
     updateProgress();
   } else {
@@ -88,6 +109,7 @@ function showQuestion(index) {
     questionContainer.textContent = "Click below to view your results.";
     answerInput.style.display = "none";
     nextBtn.style.display = "none";
+    micBtn.style.display = "none";
     progressBar.style.width = "100%";
 
     const viewBtn = document.createElement("button");
@@ -101,7 +123,6 @@ function showQuestion(index) {
         input.value=ans;
         resultForm.appendChild(input);
       });
-      // Submit to Flask route directly
       resultForm.submit();
     };
     document.querySelector(".card").appendChild(viewBtn);
@@ -120,6 +141,54 @@ nextBtn.addEventListener('click', ()=>{
 });
 
 showQuestion(currentIndex);
+
+// 🎤 Speech-to-Text functionality
+let mediaRecorder;
+let audioChunks = [];
+
+micBtn.addEventListener("click", async () => {
+  if (!mediaRecorder || mediaRecorder.state === "inactive") {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+        const formData = new FormData();
+        formData.append("audio", audioBlob);
+
+        try {
+          const response = await fetch("/transcribe", { method: "POST", body: formData });
+          const data = await response.json();
+          if (data.text) {
+            answerInput.value = data.text;
+          } else {
+            alert("❌ Could not transcribe speech.");
+          }
+        } catch(err) {
+          console.error(err);
+          alert("❌ Error communicating with server.");
+        }
+      };
+
+      mediaRecorder.start();
+      micBtn.textContent = "⏹ Stop Recording";
+      micBtn.style.background = "#2ecc71";
+      questionContainer.textContent = "🎙 Recording... speak now!";
+    } catch(err) {
+      alert("⚠️ Microphone access denied or not available: " + err.message);
+    }
+
+  } else {
+    mediaRecorder.stop();
+    micBtn.textContent = "🎤 Speak Answer";
+    micBtn.style.background = "#e74c3c";
+    questionContainer.textContent = questionTexts[currentIndex];
+  }
+});
 </script>
 </body>
 </html>
